@@ -591,3 +591,30 @@ class Studente extends Persona {
 }
 ```
 IF AN ABSTRACT CLASS HAS AN ABSTRACT METHOD EACH CHILD **MUST** HAVE IT'S LOGIC.
+
+## SINGLETON
+SINGLETON ARE USED TO GET AN UNIQUE HARDCODED INSTANCE OF A CLASS.
+```ts
+class Preside {
+    private static instance: Preside;
+
+    constructor(private nome: string, private cognome: string) { };
+
+    static getInstance() {
+        // IF THE INSTANCE IS ALREADY DEFINED, RETURN IT
+        if (Preside.instance) {
+            return this.instance;
+        }
+        // IF NOT, CREATE A NEW INSTANCE WITH HARDCODED DATA
+        this.instance = new Preside('Giovanni', 'Blu');
+        return this.instance;
+    }
+
+    greet() {
+        console.log(`Sono il Preside ${this.nome}, ${this.cognome}`);
+
+    }
+};
+
+Preside.getInstance().greet();
+```

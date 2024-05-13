@@ -119,7 +119,7 @@ let sommaVar2: (a: number, b: number) => number;
 sommaVar2 = somma2;
 
 // CLASSES
-class Persona {
+abstract class Persona {
 
     static nazione = 'Italia';
 
@@ -129,9 +129,7 @@ class Persona {
         return `${this.nome} ${this.cognome}`
     };
 
-    greet(): void {
-        console.log(`Ciao, sono ${this.nome} ${this.cognome}`);
-    };
+    abstract greet(): void
 
     welcome(persona: Persona): string {
         return `Benvenuto ${persona.nome} ${persona.cognome}!`
@@ -147,20 +145,21 @@ console.log("Nazione di persona:", Persona.nazione);
 
 let mario: Persona
 
-mario = new Persona("Mario", "Rossi");
+// WE CAN NOT DECLARE ISTANCES OF ABSTRACT CLASSES
 
-console.log("Nazione di Mario:", mario.getNation());
+// mario = new Persona("Mario", "Rossi");
 
-const luca = new Persona("Luca", "Gialli");
+// console.log("Nazione di Mario:", mario.getNation());
 
-console.log('full name:', luca.getFullName());
+// const luca = new Persona("Luca", "Gialli");
 
-mario.greet();
+// console.log('full name:', luca.getFullName());
 
-console.log(
+// mario.greet();
+
+/* console.log(
     luca.welcome(mario)
-);
-
+); */
 
 // CHILD CLASSES
 class Studente extends Persona {
@@ -180,9 +179,37 @@ class Studente extends Persona {
         this.matricola = code;
     }
 
+    // WE NEED TO DECLARE THE LOGIC OF THE ABSTRACT METHOD
+    greet(): void {
+        console.log(`Ciao, sono ${this.nome} ${this.cognome}`);
+    };
+
 };
 
 let marco = new Studente('Marco', 'Verdi', 0o1234);
 
 console.log(marco.getStudentData());
 
+// SINGLETON
+class Preside {
+    private static instance: Preside;
+
+    constructor(private nome: string, private cognome: string) { };
+
+    static getInstance() {
+        // IF THE INSTANCE IS ALREADY DEFINED, RETURN IT
+        if (Preside.instance) {
+            return this.instance;
+        }
+        // IF NOT, CREATE A NEW INSTANCE WITH HARDCODED DATA
+        this.instance = new Preside('Giovanni', 'Blu');
+        return this.instance;
+    }
+
+    greet() {
+        console.log(`Sono il Preside ${this.nome}, ${this.cognome}`);
+
+    }
+};
+
+Preside.getInstance().greet();
