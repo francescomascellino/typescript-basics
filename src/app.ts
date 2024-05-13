@@ -121,7 +121,9 @@ sommaVar2 = somma2;
 // CLASSES
 class Persona {
 
-    constructor(private nome: string, private cognome: string) {}
+    static nazione = 'Italia';
+
+    constructor(protected readonly nome: string, protected cognome: string) { }
 
     getFullName(): string {
         return `${this.nome} ${this.cognome}`
@@ -135,11 +137,19 @@ class Persona {
         return `Benvenuto ${persona.nome} ${persona.cognome}!`
     }
 
+    getNation() {
+        return Persona.nazione;
+    }
+
 };
+
+console.log("Nazione di persona:", Persona.nazione);
 
 let mario: Persona
 
 mario = new Persona("Mario", "Rossi");
+
+console.log("Nazione di Mario:", mario.getNation());
 
 const luca = new Persona("Luca", "Gialli");
 
@@ -152,4 +162,27 @@ console.log(
 );
 
 
+// CHILD CLASSES
+class Studente extends Persona {
+    constructor(
+        nome: string,
+        cognome: string,
+        private matricola: number
+    ) {
+        super(nome, cognome);
+    };
+
+    getStudentData(): string {
+        return `Nome: ${this.nome}, Cognome: ${this.cognome} - Matr: ${this.matricola}`;
+    };
+
+    changeEnrCode(code: number) {
+        this.matricola = code;
+    }
+
+};
+
+let marco = new Studente('Marco', 'Verdi', 0o1234);
+
+console.log(marco.getStudentData());
 

@@ -440,6 +440,19 @@ class Persona {
 };
 ```
 
+## READ ONLY PROPERTIES
+WE CAN DECLARE A PROPERTY AS READ ONLY SO IT WE CAN ONLY READ BUT NOT CHANGE IT:
+```ts
+class Persona {
+
+    constructor(private readonly nome: string, private cognome: string) {
+    };
+
+    // ...
+
+};
+```
+
 ## STATIC PROPERTIES
 ```ts
 class Persona {
@@ -466,4 +479,54 @@ class Persona {
     }
 
 };
+```
+
+STATIC PROPERTIES CAN BE ACCESSED FROM THE CLASS ITSELF OR USING A GETTER METHOD:
+```ts
+console.log("Nazione di persona:", Persona.nazione);
+// Nazione di persona: Italia
+
+let mario: Persona
+
+mario = new Persona("Mario", "Rossi");
+
+console.log("Nazione di Mario:", mario.getNation());
+// Nazione di Mario: Italia
+```
+
+## CHILD CLASSES
+PRIVATE PROPERTIES CAN BE ACCESSED ONLY ON THE CLASS IN WICH THEY ARE DECLARED, SO IF WE WANT TO ACCESS THE PARENT PROPERTIES nome AND cognome WE SHOULD SET THEM TO PROTECTED.
+A PROTECTED PROPERTY CAN BE ACCESSED BY THE CLASS AND HER CHILD CLASSES BUT NOT EDITED WITHOUT USING A SETTER METHOD.
+```ts
+class Persona {
+
+    constructor(protected readonly nome: string, protected cognome: string) { }
+
+    // ...
+
+};
+```
+
+WE DECLARE nome AND cognome AS SUPER PROPERTIES TO ACCESS THE PARENT CONSTRUCTOR
+```ts
+class Studente extends Persona {
+    constructor(
+        nome: string,
+        cognome: string,
+        private matricola: number
+    ) {
+        super(nome, cognome);
+    }
+
+    getStudentData(): string {
+        return `Nome: ${this.nome}, Cognome: ${this.cognome} - Matr: ${this.matricola}`;
+    }
+
+    changeEnrCode(code: number) {
+        this.matricola = code;
+    }
+};
+
+let marco = new Studente('Marco', 'Verdi', 0o1234);
+// Nome: Marco, Cognome: Verdi - Matr: 668
 ```
