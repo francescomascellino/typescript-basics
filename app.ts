@@ -91,3 +91,28 @@ function getPerson(user: Person) {
     // WE CAN ACCESS THE PROPERTIES OF THE PARAMETERS
     console.log(`USER ID: ${user.name}`);
 }
+
+// IF WE ASSIGN A DEFAULT VALUE TO A PARAMETER, TS INFERENCE WILL ASSIGN THE TYPE OF THAT VALUE TO THE PARAMETER. (parameter) b: number
+function somma2(a: number, b = 3) {
+    return a + b
+};
+
+// OPTIONAL PARAMETERS
+function tenCheck(a: number, b = 3): any {
+    if ((a+b) > 10 ) {
+        return 'sum is > 10'
+    } else {
+        return 'sum is < 10'
+    }
+};
+
+// VOID FUNCTION
+function somma3(a: number, b = 3): void {
+    console.log(a+b);
+};
+
+let sommaVar: Function = somma3;
+
+let sommaVar2: (a: number, b, number) => number;
+
+sommaVar2 = somma2

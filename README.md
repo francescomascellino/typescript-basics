@@ -104,7 +104,7 @@ let unionTs: string | number = 'a string';
 
 let unionTs2: string | number | string[]= 'a string';
 ```
-- Type Aliases
+- Type Aliases (custom data types)
 ```ts
 type Person = {
     name: string,
@@ -172,9 +172,71 @@ let testUser1: User = {
 // ENUM ASSIGNS AN INDEX ON EACH ENTRY. WE CAN EDIT THIS INDEX AND ASSIGN IT TO A NEW NUMERIC VALUE OR STRING:
 enum Role {
     ADMIN = 10,
-    USER, // THIS WILL BE (enum member) Role.USER = 11)
+    USER, // THIS WILL BE (enum member) Role.USER = 11
     GUEST = 'guest' // (enum member) Role.GUEST = "guest"
 };
+```
+# FUNCTIONS
+```ts
+// IF WE ASSIGN A DEFAULT VALUE TO A PARAMETER, TS INFERENCE WILL ASSIGN THE TYPE OF THAT VALUE TO THE PARAMETER. (parameter) b: number
+function somma2(a: number, b = 3) {
+    return a + b
+};
+```
+IF WE CHECK somma2 WE WILL SEE THAT TS EXPECTS A NUMBER, A SECOND NUMBER (OPTIONAL AS IT AS A DEFAULT) AND WILL RETURN A NUMBER AS RESULT
+```
+function somma2(a: number, b?: number): number
+```
+WE CAN ALSO DECLARE A TYPE OF THE RETURN VALUE IF NEEDED
+```ts
+function tenCheck(a: number, b = 3): any {
+    if ((a+b) > 10 ) {
+        return 'sum is > 10'
+    } else {
+        return 'sum is <= 10'
+    }
+};
+```
+THE BEST WAY TO WRITE THIS FUNCTION SHOULD BE
+```ts
+function somma3(a: number, b: number = 3): string {
+    if ((a + b) > 10) {
+        return 'La somma è > 10';
+    } else {
+        return 'La somma è <= 10';
+    }
+}
+```
+IF WE WILL NOT RETURN A VALUE, WE CAN DECLARE A RETURN TYPE OF VOID
+```ts
+function somma3(a: number, b = 3): void {
+    console.log(a+b);
+};
+```
+THIS WAY IF WE DECLARE A RETURN NOT VOID TS WILL WARN US
+```ts
+function somma3(a: number, b = 3): void {
+    //👇 Type 'number' is not assignable to type 'void'. 👇
+    return a + b
+}
+```
+IF WE WANT TO ASSIGN A FUNCTION TO A VARIABLE, WE CAN ASSIGN THE TYPE FUNCTION AS WE DECLARE THE VARIABLE:
+```ts
+function somma3(a: number, b = 3): void {
+    console.log(a+b);
+};
+
+let sommaVar: Function = somma3
+```
+WHEN ASSIGNING FUNCTIONS TO VARIABLES WE CAN SPECIFY WHAT KIND OF PARAMETERS AND RETURN WE ACCEPT
+```ts
+let sommaVar: (a: number, b, number) => number;
+```
+THIS WAY WE WILL GET NOTIFIED OF AN ERROR IF WE ASSIGN A FUNCTION WITH DIFFERENT PARAMETERS OR RETURN VALUES.
+IF WE ASSIGN TO sommaVar A FUNCTION WITH A RETURN OF VOID FOR EXAMPLE, WE WILL GET:
+```
+Type '(a: number, b?: number) => void' is not assignable to type '(a: number, b: any, number: any) => number'.
+Type 'void' is not assignable to type 'number'.
 ```
 # COMPILE TS FILE WITH TYPESCRIPT COMPILER
 ```bash
@@ -183,9 +245,14 @@ tsc app.ts
 This will create the app.js file:
 ```js
 // app.js
+
+// code
+
 function somma(a, b) {
     return a + b;
 }
 ;
 console.log(somma(3, 5));
+
+// ecc
 ```
