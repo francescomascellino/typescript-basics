@@ -256,3 +256,74 @@ console.log(somma(3, 5));
 
 // ecc
 ```
+
+WE CAN USE 
+```bash
+tsc app.ts --watch
+```
+OR
+```bash
+tsc app.ts -w
+```
+TO AUTOMATICALLY WATCH OUR .ts FILE FOR CHANGES AND UPDATE OUR .js FILE
+```bash
+[15:15:17] Starting compilation in watch mode...
+
+[15:15:17] Found 0 errors. Watching for file changes.
+```
+IF WE USE
+```bash
+tsc --init
+```
+TS WILL CREATE A .json FILE AND THE COMPILER WILL AUTOMATICALLY MANAGE AND COMPILE .ts FILES
+```
+Created a new tsconfig.json with:                                                                     
+target: es2016
+module: commonjs
+strict: true
+esModuleInterop: true
+skipLibCheck: true
+forceConsistentCasingInFileNames: true
+
+
+You can learn more at https://aka.ms/tsconfig
+```
+NOW AFTER USING --init WE CAN WATCH ALL FILES
+```bash
+tsc -w
+```
+WE CAN ADD AT THE END OF tsconfig.json AN ARRAY OF FILES/DIRECTORIES TO EXLUDE FROM OUR WATCH:
+```json
+// [.json file]
+
+    },
+
+    "exclude": [
+        "node_modules",
+        "./file-to-exclude.ts"
+    ]
+
+}
+```
+WE SHOULD DECLARE TO EXCLUDE node_modules IF WE USE "exclude" IN tsconfig.json.
+
+IF WE WANT TO CHECK OUR SOURCE TYPESCRRIPT FILES WITH THE BROWSER DEVTOOLS WE HAVE TO ENABLE "sourceMap" ON tsconfig.json
+```json
+/* Create source map files for emitted JavaScript files. */
+"sourceMap": true,
+```
+
+WE CAN SPECIFY A FOLDER CONTAINING OUR TS SOURCE FILES IN tsconfig.json:
+```json
+/* Specify the root folder within your source files. */
+"rootDir": "./src",
+```
+AND A FOLDER FOR OUR COMPILED JS FILES
+```json
+/* Specify an output folder for all emitted files. */
+"outDir": "./dist",
+```
+REMEMBER TO UPDATE THE SCRIPT PATH:
+```html
+<script src="./dist/app.js" type="text/javascript"></script>
+```

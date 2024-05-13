@@ -113,6 +113,6 @@ function somma3(a: number, b = 3): void {
 
 let sommaVar: Function = somma3;
 
-let sommaVar2: (a: number, b, number) => number;
+let sommaVar2: (a: number, b: number) => number;
 
 sommaVar2 = somma2
