@@ -17,6 +17,7 @@ function somma(a: number, b: number) {
 };
 console.log(somma(3, 5));
 ```
+
 # TS DATA TYPES
 Basic data types:
 - String
@@ -176,6 +177,7 @@ enum Role {
     GUEST = 'guest' // (enum member) Role.GUEST = "guest"
 };
 ```
+
 # FUNCTIONS
 ```ts
 // IF WE ASSIGN A DEFAULT VALUE TO A PARAMETER, TS INFERENCE WILL ASSIGN THE TYPE OF THAT VALUE TO THE PARAMETER. (parameter) b: number
@@ -238,7 +240,8 @@ IF WE ASSIGN TO sommaVar A FUNCTION WITH A RETURN OF VOID FOR EXAMPLE, WE WILL G
 Type '(a: number, b?: number) => void' is not assignable to type '(a: number, b: any, number: any) => number'.
 Type 'void' is not assignable to type 'number'.
 ```
-# COMPILE TS FILE WITH TYPESCRIPT COMPILER
+
+# COMPILE TS FILES WITH TYPESCRIPT COMPILER
 ```bash
 tsc app.ts
 ```
@@ -326,4 +329,141 @@ AND A FOLDER FOR OUR COMPILED JS FILES
 REMEMBER TO UPDATE THE SCRIPT PATH:
 ```html
 <script src="./dist/app.js" type="text/javascript"></script>
+```
+
+# CLASSES
+CLASSES WORK ALMOST THE SAME
+```ts
+class Persona {
+    private nome: string;
+    private cognome: string;
+    constructor(nome: string, cognome: string) {
+        this.nome = nome;
+        this.cognome = cognome
+    }
+
+    getFullName(): string {
+        return `${this.nome} ${this.cognome}`
+    };
+
+    greet(): void {
+        console.log(`Ciao, sono ${this.nome} ${this.cognome}`);
+    };
+
+    welcome(persona: Persona): string {
+        return `Benvenuto ${persona.nome} ${persona.cognome}!`
+    }
+
+    changeSurname() {
+
+    }
+
+};
+
+let mario: Persona
+
+mario = new Persona("Mario", "Rossi");
+
+const luca = new Persona("Luca", "Gialli");
+
+console.log('full name:', luca.getFullName());
+// full name: Luca Gialli
+
+mario.greet();
+// Ciao, sono Mario Rossi
+
+console.log(
+    luca.welcome(mario)
+);
+// Benvenuto Mario Rossi!
+```
+
+# CLASS PROPERTIES
+## PRIVATE PROPERTIES
+WE CAN DECLARE A PROPERTY AS PRIVATE SO WE CAN'T REASSIGN IT WITHOUT A METHOD
+```ts
+class Persona {
+    private nome: string;
+    private cognome: string;
+
+    // ...
+
+    changeSurname(surname: string) {
+        this.cognome = surname;
+    }
+
+};
+```
+TS CAN AUTOMATICALLY DETECT CONSTRUCTOR PROPERTIES WHEN DECLARED
+```ts
+class Persona {
+
+    constructor(private nome: string, private cognome: string) {}
+
+    getFullName(): string {
+        return `${this.nome} ${this.cognome}`
+    };
+
+    greet(): void {
+        console.log(`Ciao, sono ${this.nome} ${this.cognome}`);
+    };
+
+    welcome(persona: Persona): string {
+        return `Benvenuto ${persona.nome} ${persona.cognome}!`
+    }
+
+};
+```
+
+(WE CAN ADD SOME ERROR MANAGEMENT INSIDE THE MUSTACHE BRACKETS CONTRUCTOR)
+```ts
+class Persona {
+
+    constructor(private nome: string, private cognome: string) {
+        if (!nome || !cognome) {
+            throw new Error("Nome e cognome devono essere forniti.");
+        }
+    }
+
+    getFullName(): string {
+        return `${this.nome} ${this.cognome}`
+    };
+
+    greet(): void {
+        console.log(`Ciao, sono ${this.nome} ${this.cognome}`);
+    };
+
+    welcome(persona: Persona): string {
+        return `Benvenuto ${persona.nome} ${persona.cognome}!`
+    }
+
+};
+```
+
+## STATIC PROPERTIES
+```ts
+class Persona {
+
+    static nazione: string = "Italia";
+
+    constructor(private nome: string, private cognome: string) {
+    };
+
+    getFullName(): string {
+        return `${this.nome} ${this.cognome}`
+    };
+
+    greet(): void {
+        console.log(`Ciao, sono ${this.nome} ${this.cognome}`);
+    };
+
+    welcome(persona: Persona): string {
+        return `Benvenuto ${persona.nome} ${persona.cognome}!`
+    }
+
+    static getNazione(): string {
+        return Persona.nazione;
+    }
+
+};
 ```

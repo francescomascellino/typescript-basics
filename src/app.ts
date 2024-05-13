@@ -67,7 +67,7 @@ type User = {
     name: string,
     age: number,
     isMarried: boolean,
-    address: {city: string, number: number, street: string},
+    address: { city: string, number: number, street: string },
     role: Role
 };
 
@@ -75,7 +75,8 @@ let testUser1: User = {
     name: 'Mario',
     age: 30,
     isMarried: false,
-    address: { city: 'Roma', number: 30, street: 'Via Milano'
+    address: {
+        city: 'Roma', number: 30, street: 'Via Milano'
     },
     role: Role.ADMIN
 }
@@ -99,7 +100,7 @@ function somma2(a: number, b = 3) {
 
 // OPTIONAL PARAMETERS
 function tenCheck(a: number, b = 3): any {
-    if ((a+b) > 10 ) {
+    if ((a + b) > 10) {
         return 'sum is > 10'
     } else {
         return 'sum is < 10'
@@ -108,11 +109,47 @@ function tenCheck(a: number, b = 3): any {
 
 // VOID FUNCTION
 function somma3(a: number, b = 3): void {
-    console.log(a+b);
+    console.log(a + b);
 };
 
 let sommaVar: Function = somma3;
 
 let sommaVar2: (a: number, b: number) => number;
 
-sommaVar2 = somma2
+sommaVar2 = somma2;
+
+// CLASSES
+class Persona {
+
+    constructor(private nome: string, private cognome: string) {}
+
+    getFullName(): string {
+        return `${this.nome} ${this.cognome}`
+    };
+
+    greet(): void {
+        console.log(`Ciao, sono ${this.nome} ${this.cognome}`);
+    };
+
+    welcome(persona: Persona): string {
+        return `Benvenuto ${persona.nome} ${persona.cognome}!`
+    }
+
+};
+
+let mario: Persona
+
+mario = new Persona("Mario", "Rossi");
+
+const luca = new Persona("Luca", "Gialli");
+
+console.log('full name:', luca.getFullName());
+
+mario.greet();
+
+console.log(
+    luca.welcome(mario)
+);
+
+
+
