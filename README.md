@@ -462,6 +462,7 @@ class Persona {
     constructor(private nome: string, private cognome: string) {
     };
 
+    // GETTER
     getFullName(): string {
         return `${this.nome} ${this.cognome}`
     };
@@ -522,6 +523,7 @@ class Studente extends Persona {
         return `Nome: ${this.nome}, Cognome: ${this.cognome} - Matr: ${this.matricola}`;
     }
 
+    // SETTER
     changeEnrCode(code: number) {
         this.matricola = code;
     }
@@ -530,3 +532,62 @@ class Studente extends Persona {
 let marco = new Studente('Marco', 'Verdi', 0o1234);
 // Nome: Marco, Cognome: Verdi - Matr: 668
 ```
+
+## ABSTRACT CLASSES
+WE CAN DECLARE AN ABSTRACT CLASS TO USE AS TEMPLATE.
+WE COULD USE Persona AS ABSTRACT CLASS AS IN OUR APP EVERY PERSON WILL HAVE A ROLE AND WE WILL NOT HAVE THE NEED TO GENERATE A Persona INSTANCE
+```ts
+abstract class Persona {
+
+    constructor(protected readonly nome: string, protected cognome: string) { }
+
+    // ...
+
+};
+```
+THIS WAY WE CAN NOT CREATE A NEW Persona
+```ts
+// 👇 Cannot create an instance of an abstract class. 👇
+const luca = new Persona("Luca", "Gialli");
+
+BUT WE CAN CREATE A NEW Studente (WICH EXTENDS Persona):
+// ✔️
+const marco = new Studente('Marco', 'Verdi', 0o1234);
+```
+
+WE CAN ALSO DECLARE METHODS AS ABSTRACT.
+WHEN DECLARED AN ABSTRACT METHOD DOES NOT NEED LOGIC, BUT ONLY DECLARATION:
+```ts
+abstract class Persona {
+
+    constructor(protected readonly nome: string, protected cognome: string) { }
+
+    // ...
+
+    abstract greet(): void
+
+};
+```
+
+BUT EACH CHILD CLASSES NEED THE LOGIC OF THE DECLARED METHOD, WICH CAN CHANGE FROM CLASS TO CLASS:
+```ts
+class Studente extends Persona {
+
+    constructor(
+        nome: string,
+        cognome: string,
+        private matricola: number
+    ) {
+        super(nome, cognome);
+    };
+
+    // ...
+
+    // 👇
+    greet(): void {
+        console.log(`Ciao, sono ${this.nome} ${this.cognome}`);
+    };
+
+}
+```
+
