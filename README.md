@@ -618,3 +618,67 @@ class Preside {
 
 Preside.getInstance().greet();
 ```
+## INTERFACE
+INTERFACES ARE USED TO DEFINE THE ABSTRACTION OF BEHAVIOURS OF METHODS OR PROPERTIES A CLASS CAN IMPLEMENT, WITHOUT HAVING TO EXTEND ANOTHER CLASS.
+EXAMPLE: A SMARTPHONE IS A DEVICE WICH HAS INTERNET CONNECTION, A TELPHONE IS A DEVICE WITHOUT INTERNET CONNECTION.
+```ts
+abstract class Device {
+
+    constructor(protected nome: string, protected year: number) {};
+    
+    abstract turnOn(): void;
+    abstract turnOff(): void;
+
+    getYear() {
+        console.log(`Questo ${this.nome} è stato prodotto nel ${this.year}`);
+        
+    }
+};
+
+interface internetConnection {
+    ip: string;
+    connect(): void;
+    disconnect(): void;
+}
+
+class Smarphone extends Device implements internetConnection {
+
+    ip: string;
+
+    constructor(nome: string, year: number, ip: string) {
+        super(nome, year);
+        this.ip = ip;
+    }
+
+    connect(): void {
+        console.log(`${this.nome} si è connesso all'indirizzo IP ${this.ip}`);
+    }
+    disconnect(): void {
+        console.log(`${this.nome} si è disconnesso dall'indirizzo IP ${this.ip}`);
+    }
+    turnOn(): void {
+        console.log(`${this.nome} si accende`);
+    }
+    turnOff(): void {
+        console.log(`${this.nome} si spegne`);
+    }
+
+}
+
+let iphone = new Smarphone('iPhone', 2019, '123.456.789');
+
+// Questo iPhone è stato prodotto nel 2019
+iphone.getYear();
+
+// iPhone si accende
+iphone.turnOn();
+
+// iPhone si è connesso all'indirizzo IP 123.456.789
+iphone.connect();
+
+// iPhone si è disconnesso dall'indirizzo IP 123.456.789
+iphone.disconnect();
+
+// iPhone si spegne
+iphone.turnOff();
+```
