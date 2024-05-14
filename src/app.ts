@@ -50,7 +50,6 @@ type Test = string | number;
 let customTest: Test = 'true';
 
 // ENUM
-
 enum Role {
     ADMIN = 10,
     USER,
@@ -204,12 +203,13 @@ class Preside {
         // IF NOT, CREATE A NEW INSTANCE WITH HARDCODED DATA
         this.instance = new Preside('Giovanni', 'Blu');
         return this.instance;
-    }
+    };
 
     greet() {
         console.log(`Sono il Preside ${this.nome}, ${this.cognome}`);
 
-    }
+    };
+
 };
 
 Preside.getInstance().greet();
@@ -217,15 +217,15 @@ Preside.getInstance().greet();
 // INTERFACES
 abstract class Device {
 
-    constructor(protected nome: string, protected year: number) {};
-    
+    constructor(protected nome: string, protected year: number) { };
+
     abstract turnOn(): void;
     abstract turnOff(): void;
 
     getYear() {
         console.log(`Questo ${this.nome} è stato prodotto nel ${this.year}`);
-        
-    }
+    };
+
 };
 
 interface internetConnection {
@@ -241,25 +241,27 @@ class Smarphone extends Device implements internetConnection {
     constructor(nome: string, year: number, ip: string) {
         super(nome, year);
         this.ip = ip;
-    }
+    };
 
     connect(): void {
         console.log(`${this.nome} si è connesso all'indirizzo IP ${this.ip}`);
-    }
+    };
+
     disconnect(): void {
         console.log(`${this.nome} si è disconnesso dall'indirizzo IP ${this.ip}`);
-    }
+    };
+
     turnOn(): void {
         console.log(`${this.nome} si accende`);
-    }
+    };
+
     turnOff(): void {
         console.log(`${this.nome} si spegne`);
-    }
+    };
 
 }
 
-
-let iphone = new Smarphone('iPhone', 2019, '123.456.789');
+let iphone = new Smarphone('iPhone', 2019, '192.158.1.38');
 
 // Questo iPhone è stato prodotto nel 2019
 iphone.getYear();
@@ -275,3 +277,93 @@ iphone.disconnect();
 
 // iPhone si spegne
 iphone.turnOff();
+
+// INTERFACE EXTENSION
+interface connectionType extends internetConnection {
+    connectType: string;
+};
+
+class Computer extends Device implements connectionType {
+
+    connectType: string;
+    ip: string;
+
+    constructor(nome: string, year: number, ip: string, connectionType: string) {
+        super(nome, year);
+        this.connectType = connectionType;
+        this.ip = ip;
+    };
+
+    connect(): void {
+        console.log(`${this.nome} si è connesso all'indirizzo IP ${this.ip}`);
+    };
+
+    disconnect(): void {
+        console.log(`${this.nome} si è disconnesso dall'indirizzo IP ${this.ip}`);
+    };
+
+    turnOn(): void {
+        console.log(`${this.nome} si accende`);
+    };
+
+    turnOff(): void {
+        console.log(`${this.nome} si spegne`);
+    };
+
+};
+
+let macBook = new Computer('Macbook', 2017, '192.158.1.38', 'WiFi');
+
+// WiFi
+console.log(macBook.connectType);
+
+// GENERICS TYPES
+
+// WE CAN DECLARE THE DESIRED TYPE OF VALUES
+const arr: Array<string> = ['string1', 'string2'];
+
+// T IS A BUILT-IN TYPE THAT DEFINES A GENERIC TYPE
+// THIS WAY IT WILL GENERATE A GENERIC ARRAY OF THE SAME TYPE
+function newArray<T>(items: T[]) {
+    return new Array().concat(items);
+};
+
+// IT WILL TAKE VIA INFERENCE NUMBER AS TYPE
+// function newArray<number>(items: number[]): any[]
+const arr1 = newArray([1,2,3]);
+
+// IT WILL TAKE VIA INFERENCE STRING AS TYPE
+// function newArray<string>(items: string[]): any[]
+const arr2 = newArray(['a','b','c']);
+
+// IT WILL TAKE VIA INFERENCE STRING OR NUMBER UNION AS TYPE
+// function newArray<string | number>(items: (string | number)[]): any[]
+const arr3 = newArray(['a','b',3]);
+
+// THIS WAY IT WILL ACCEPT ONLY NUMBERS AS PARAMETERS
+const arr4 = newArray<number>([1,2,3]);
+
+const arr5 = newArray<number | string | boolean>([1,'a',true]);
+
+// WE CAN DECLARE A CLASS THAT ACCEPT GENERIC VALUES THAT WILL BE TYPIZED BY INFERENCE
+class List<T> {
+
+    // IT HAS A GENERIC ARRAY HAS PRIVATE PROPERTY
+    private list: T[] = [];
+
+    addItem(item: T): void {
+        this.list.push(item);
+    };
+
+    removeItem(item: T): void {
+        this.list.splice(this.list.indexOf(item, 1));
+    };
+};
+
+// AS WE CREATE A NEW ISTANCE, ALL TYPES WILL BE CHANGED BY INFERENCE
+const list = new List<number>();
+
+// IT WILL ACCEPT ONLY NUMBERS AS ARGUMENTS NOW
+// (method) List<number>.addItem(item: number): void
+// Argument of type 'string' is not assignable to parameter of type 'number'.
+list.addItem(1);

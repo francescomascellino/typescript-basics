@@ -39,7 +39,7 @@ let tsObject: {};
 let tsObject2: object;
 
  //👇 Type 'string' is not assignable to type 'object'👇
-tsObject2 = 'mario';
+tsObject2 = 'mario'; // ❌
 
 // ✔️ OK
 tsObject2 = {
@@ -60,7 +60,7 @@ let tsObject3: {
 tsObject3 = {
     name: "Mario",
     //👇 Type 'string' is not assignable to type 'number' 👇
-    age: 'trenta', 
+    age: 'trenta', // ❌
     isMarried: false
 };
 
@@ -70,7 +70,7 @@ tsObject3 = {
     age: 30,
     isMarried: false,
     //👇 Object literal may only specify known properties, and 'address' does not exist in type '{ name: string; age: number; isMarried: boolean; }'. 👇
-    address: {city: 'Roma', number: 30, street: 'Via Milano'}
+    address: {city: 'Roma', number: 30, street: 'Via Milano'} // ❌
 };
 
 // WE CAN DECLARE AN EXPECTED OBJECT STRUCTURE ON A FUNCTION PARAMETER
@@ -85,10 +85,10 @@ function getData(data: {id: number; username: string; passwod: string}) {
 let tuple : [number, number];
 
 //👇 Type 'string' is not assignable to type 'number'. 👇
-tuple = ['carl', 2];
+tuple = ['carl', 2]; // ❌
 
 //👇 Type '[number, number, number]' is not assignable to type '[number, number]'. Source has 3 element(s) but target allows only 2. 👇
-tuple = [1, 2, 3];
+tuple = [1, 2, 3]; // ❌
 
 ```
 
@@ -101,7 +101,7 @@ Advanced data types:
 - Union (used to assign multyple data types)
 ```ts
 //👇 Type 'boolean' is not assignable to type 'string | number'. 👇
-let unionTs: string | number = 'a string';
+let unionTs: string | number = 'a string'; // ❌
 
 let unionTs2: string | number | string[]= 'a string';
 ```
@@ -126,7 +126,7 @@ user = {
 type Test = string | number;
 
 //👇 Type 'boolean' is not assignable to type 'Test'. 👇
-let customTest: Test = true;
+let customTest: Test = true; // ❌
 
 // ✔️
 let customTest: Test = 'true';
@@ -219,7 +219,7 @@ THIS WAY IF WE DECLARE A RETURN NOT VOID TS WILL WARN US
 ```ts
 function somma3(a: number, b = 3): void {
     //👇 Type 'number' is not assignable to type 'void'. 👇
-    return a + b
+    return a + b // ❌
 }
 ```
 IF WE WANT TO ASSIGN A FUNCTION TO A VARIABLE, WE CAN ASSIGN THE TYPE FUNCTION AS WE DECLARE THE VARIABLE:
@@ -232,7 +232,7 @@ let sommaVar: Function = somma3
 ```
 WHEN ASSIGNING FUNCTIONS TO VARIABLES WE CAN SPECIFY WHAT KIND OF PARAMETERS AND RETURN WE ACCEPT
 ```ts
-let sommaVar: (a: number, b, number) => number;
+let sommaVar: (a: number, b: number) => number;
 ```
 THIS WAY WE WILL GET NOTIFIED OF AN ERROR IF WE ASSIGN A FUNCTION WITH DIFFERENT PARAMETERS OR RETURN VALUES.
 IF WE ASSIGN TO sommaVar A FUNCTION WITH A RETURN OF VOID FOR EXAMPLE, WE WILL GET:
@@ -340,7 +340,7 @@ class Persona {
     constructor(nome: string, cognome: string) {
         this.nome = nome;
         this.cognome = cognome
-    }
+    };
 
     getFullName(): string {
         return `${this.nome} ${this.cognome}`
@@ -352,30 +352,30 @@ class Persona {
 
     welcome(persona: Persona): string {
         return `Benvenuto ${persona.nome} ${persona.cognome}!`
-    }
+    };
 
-    changeSurname() {
-
-    }
+    changeSurname(surname: string) {
+        this.cognome = surname;
+    };
 
 };
 
-let mario: Persona
+let mario: Persona;
 
 mario = new Persona("Mario", "Rossi");
 
 const luca = new Persona("Luca", "Gialli");
 
-console.log('full name:', luca.getFullName());
 // full name: Luca Gialli
+console.log('full name:', luca.getFullName());
 
-mario.greet();
 // Ciao, sono Mario Rossi
+mario.greet();
 
+// Benvenuto Mario Rossi!
 console.log(
     luca.welcome(mario)
 );
-// Benvenuto Mario Rossi!
 ```
 
 # CLASS PROPERTIES
@@ -390,7 +390,7 @@ class Persona {
 
     changeSurname(surname: string) {
         this.cognome = surname;
-    }
+    };
 
 };
 ```
@@ -410,7 +410,7 @@ class Persona {
 
     welcome(persona: Persona): string {
         return `Benvenuto ${persona.nome} ${persona.cognome}!`
-    }
+    };
 
 };
 ```
@@ -423,7 +423,7 @@ class Persona {
         if (!nome || !cognome) {
             throw new Error("Nome e cognome devono essere forniti.");
         }
-    }
+    };
 
     getFullName(): string {
         return `${this.nome} ${this.cognome}`
@@ -435,7 +435,7 @@ class Persona {
 
     welcome(persona: Persona): string {
         return `Benvenuto ${persona.nome} ${persona.cognome}!`
-    }
+    };
 
 };
 ```
@@ -473,11 +473,11 @@ class Persona {
 
     welcome(persona: Persona): string {
         return `Benvenuto ${persona.nome} ${persona.cognome}!`
-    }
+    };
 
     static getNazione(): string {
         return Persona.nazione;
-    }
+    };
 
 };
 ```
@@ -501,7 +501,7 @@ A PROTECTED PROPERTY CAN BE ACCESSED BY THE CLASS AND HER CHILD CLASSES BUT NOT 
 ```ts
 class Persona {
 
-    constructor(protected readonly nome: string, protected cognome: string) { }
+    constructor(protected readonly nome: string, protected cognome: string) { };
 
     // ...
 
@@ -517,16 +517,17 @@ class Studente extends Persona {
         private matricola: number
     ) {
         super(nome, cognome);
-    }
+    };
 
     getStudentData(): string {
         return `Nome: ${this.nome}, Cognome: ${this.cognome} - Matr: ${this.matricola}`;
-    }
+    };
 
     // SETTER
     changeEnrCode(code: number) {
         this.matricola = code;
-    }
+    };
+
 };
 
 let marco = new Studente('Marco', 'Verdi', 0o1234);
@@ -539,7 +540,7 @@ WE COULD USE Persona AS ABSTRACT CLASS AS IN OUR APP EVERY PERSON WILL HAVE A RO
 ```ts
 abstract class Persona {
 
-    constructor(protected readonly nome: string, protected cognome: string) { }
+    constructor(protected readonly nome: string, protected cognome: string) { };
 
     // ...
 
@@ -548,7 +549,7 @@ abstract class Persona {
 THIS WAY WE CAN NOT CREATE A NEW Persona
 ```ts
 // 👇 Cannot create an instance of an abstract class. 👇
-const luca = new Persona("Luca", "Gialli");
+const luca = new Persona("Luca", "Gialli"); // ❌
 
 BUT WE CAN CREATE A NEW Studente (WICH EXTENDS Persona):
 // ✔️
@@ -560,11 +561,11 @@ WHEN DECLARED AN ABSTRACT METHOD DOES NOT NEED LOGIC, BUT ONLY DECLARATION:
 ```ts
 abstract class Persona {
 
-    constructor(protected readonly nome: string, protected cognome: string) { }
+    constructor(protected readonly nome: string, protected cognome: string) { };
 
     // ...
 
-    abstract greet(): void
+    abstract greet(): void;
 
 };
 ```
@@ -588,7 +589,7 @@ class Studente extends Persona {
         console.log(`Ciao, sono ${this.nome} ${this.cognome}`);
     };
 
-}
+};
 ```
 IF AN ABSTRACT CLASS HAS AN ABSTRACT METHOD EACH CHILD **MUST** HAVE IT'S LOGIC.
 
@@ -608,17 +609,18 @@ class Preside {
         // IF NOT, CREATE A NEW INSTANCE WITH HARDCODED DATA
         this.instance = new Preside('Giovanni', 'Blu');
         return this.instance;
-    }
+    };
 
     greet() {
         console.log(`Sono il Preside ${this.nome}, ${this.cognome}`);
+    };
 
-    }
 };
 
 Preside.getInstance().greet();
 ```
-## INTERFACE
+
+## INTERFACES
 INTERFACES ARE USED TO DEFINE THE ABSTRACTION OF BEHAVIOURS OF METHODS OR PROPERTIES A CLASS CAN IMPLEMENT, WITHOUT HAVING TO EXTEND ANOTHER CLASS.
 EXAMPLE: A SMARTPHONE IS A DEVICE WICH HAS INTERNET CONNECTION, A TELPHONE IS A DEVICE WITHOUT INTERNET CONNECTION.
 ```ts
@@ -639,7 +641,7 @@ interface internetConnection {
     ip: string;
     connect(): void;
     disconnect(): void;
-}
+};
 
 class Smarphone extends Device implements internetConnection {
 
@@ -653,19 +655,22 @@ class Smarphone extends Device implements internetConnection {
     connect(): void {
         console.log(`${this.nome} si è connesso all'indirizzo IP ${this.ip}`);
     }
+
     disconnect(): void {
         console.log(`${this.nome} si è disconnesso dall'indirizzo IP ${this.ip}`);
     }
+
     turnOn(): void {
         console.log(`${this.nome} si accende`);
     }
+
     turnOff(): void {
         console.log(`${this.nome} si spegne`);
     }
 
 }
 
-let iphone = new Smarphone('iPhone', 2019, '123.456.789');
+let iphone = new Smarphone('iPhone', 2019, '192.158.1.38');
 
 // Questo iPhone è stato prodotto nel 2019
 iphone.getYear();
@@ -673,12 +678,142 @@ iphone.getYear();
 // iPhone si accende
 iphone.turnOn();
 
-// iPhone si è connesso all'indirizzo IP 123.456.789
+// iPhone si è connesso all'indirizzo IP 192.158.1.38
 iphone.connect();
 
-// iPhone si è disconnesso dall'indirizzo IP 123.456.789
+// iPhone si è disconnesso dall'indirizzo IP 192.158.1.38
 iphone.disconnect();
 
 // iPhone si spegne
 iphone.turnOff();
+```
+
+AN INTERFACE CAN EXTEND ONE OR MORE INTERFACES:
+```ts
+interface connectionType extends internetConnection {
+    connectType: string;
+};
+
+class Computer extends Device implements connectionType {
+
+    connectType: string;
+    ip: string;
+
+    constructor(nome: string, year: number, ip: string, connectionType: string) {
+        super(nome, year);
+        this.connectType = connectionType;
+        this.ip = ip;
+    }
+
+    connect(): void {
+        console.log(`${this.nome} si è connesso all'indirizzo IP ${this.ip}`);
+    }
+
+    disconnect(): void {
+        console.log(`${this.nome} si è disconnesso dall'indirizzo IP ${this.ip}`);
+    }
+
+    turnOn(): void {
+        console.log(`${this.nome} si accende`);
+    }
+
+    turnOff(): void {
+        console.log(`${this.nome} si spegne`);
+    }
+
+};
+
+let macBook = new Computer('Macbook', 2017, '192.158.1.38', 'WiFi');
+
+// WiFi
+console.log(macBook.connectType);
+```
+
+## GENERICS
+GENERICS ARE TYPES THAT CAN BE USED TO
+-   DEFINE TYPES FOR FUNCTION PARAMETERS
+-   DEFINE TYPES FOR FUNCTION RETURN
+
+WE CAN DECLARE THE DESIRED TYPE OF VALUES
+```
+const arr: Array<string> = ['string1', 'string2'];
+```
+
+T IS A BUILT-IN TYPE THAT DEFINES A GENERIC TYPE
+THIS WAY IT WILL GENERATE A GENERIC ARRAY OF THE SAME TYPE
+```ts
+function newArray<T>(items: T[]) {
+    return new Array().concat(items);
+};
+```
+
+THIS WAY IT WILL TAKE VIA INFERENCE NUMBER AS TYPE
+```ts
+// function newArray<number>(items: number[]): any[]
+const arr1 = newArray([1,2,3]);
+```
+
+THIS WAY IT WILL TAKE VIA INFERENCE STRING AS TYPE
+```ts
+// function newArray<string>(items: string[]): any[]
+const arr2 = newArray(['a','b','c']);
+```
+
+THIS WAY IT WILL TAKE VIA INFERENCE STRING OR NUMBER UNION AS TYPE
+```ts
+// function newArray<string | number>(items: (string | number)[]): any[]
+const arr3 = newArray(['a','b',3]);
+```
+
+THIS WAY THIS WAY IT WILL ACCEPT ONLY NUMBERS AS PARAMETERS
+```ts
+const arr4 = newArray<number>([1,2,3]);
+```
+
+WE CAN ALSO DECLARE WE WILL PASS MULTIPLE TYPES AS UNION
+```ts
+const arr5 = newArray<number | string | boolean>([1,'a',true]);
+```
+
+WE CAN CONSTRAIN T TO BE A SPECIFIC TYPE
+```ts
+function newArray<T extends number>(items: T[]): T[] {
+    return new Array().concat(items);
+};
+```
+```ts
+function newArray<T extends number | string>(items: T[]): T[] {
+    return new Array().concat(items);
+};
+```
+WE CAN DECLARE A CLASS THAT ACCEPT GENERIC VALUES THAT WILL BE TYPIZED BY INFERENCE
+```ts
+class List<T> {
+
+    // IT HAS A GENERIC ARRAY HAS PRIVATE PROPERTY
+    private list: T[] = [];
+
+    addItem(item: T): void {
+        this.list.push(item);
+    };
+
+    removeItem(item: T): void {
+        this.list.splice(this.list.indexOf(item, 1));
+    };
+};
+
+// AS WE CREATE A NEW ISTANCE, ALL TYPES WILL BE CHANGED BY INFERENCE
+const list = new List<number>();
+
+//👇 IT WILL ACCEPT ONLY NUMBERS AS ARGUMENTS NOW 👇
+// (method) List<number>.addItem(item: number): void
+list.addItem(1);
+
+//👇 Argument of type 'string' is not assignable to parameter of type 'number'. 👇
+list.addItem('a'); // ❌
+```
+
+TO SUMMARIZE, HERE ASSIGNS TYPE number TO T:
+```ts
+const list = new List<number>();
 ```
