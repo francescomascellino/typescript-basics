@@ -956,3 +956,20 @@ logSum(5, 2);
 
 console.log(`Your operation result is ${multiplication(5, 2)}`);
 ```
+
+WE CAN ALSO EXPORT AS AN OBJECT
+```ts
+function logSuccess():void {
+    console.log('successful import!');
+};
+
+function logSum(a: number, b: number):void {
+    console.log('Sum is ',a + b);
+};
+
+function multiplication(a: number, b: number): number {
+    return a * b;
+};
+
+export { logSuccess, logSum, multiplication };
+```
