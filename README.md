@@ -915,3 +915,44 @@ class MyClass {
     }
 }
 ```
+
+# IMPORT FILES
+
+WE ADD TYPE MODULE ON THE SCRIPT TAG IN INDEX.HTML
+```html
+<script src="./dist/app.js" type="module"></script>
+```
+
+WE MAKE SURE THAT IN tsconfig.json, UNDER compilerOptions THAT "module" AND target USE THE RIGHT VERSION OF ES
+```json
+"target": "es2016",
+"module": "ES6",
+```
+
+WE CREATE A SEPARATE FILE AND WE USE THE COMMAND export TO DECLARE THE DATA WE NEED
+```ts
+// utils.ts
+
+export function logSuccess():void {
+    console.log('successful import!');
+};
+
+export function logSum(a: number, b: number):void {
+    console.log('Sum is ',a + b);
+};
+
+export function multiplication(a: number, b: number): number {
+    return a * b;
+};
+```
+WE IMPORT THE FUNCTIONS/DATA FROM THE FILE
+```ts
+// USE.js EXTENSION OR THE COMPILED FILE WILL NOT FIND THE FILE IMPORT
+import { logSuccess, logSum, multiplication } from './utils.js';
+
+logSuccess();
+
+logSum(5, 2);
+
+console.log(`Your operation result is ${multiplication(5, 2)}`);
+```

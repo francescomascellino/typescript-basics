@@ -1,3 +1,5 @@
+import { logSuccess, logSum, multiplication } from './utils.js';
+
 // OBJECTS
 let tsObject2: object;
 
@@ -427,3 +429,9 @@ class MyClass {
         console.log(`Property: ${property}`);
     }
 }
+
+logSuccess();
+
+logSum(5, 2);
+
+console.log(`Your operation result is ${multiplication(5, 2)}`);
