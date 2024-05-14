@@ -817,3 +817,101 @@ TO SUMMARIZE, HERE ASSIGNS TYPE number TO T:
 ```ts
 const list = new List<number>();
 ```
+
+# DECORATORS
+DECORATORS MUST BE ENABLED IN tsconfig.json
+```json
+/* Enable experimental support for legacy experimental decorators. */
+"experimentalDecorators": true,
+```
+
+A DECORATOR FACTORY IS A FUNCTION THAT RETURN A DECORATOR.
+WE DEFINE THE DESIDERED PARAMETERS IN OUR FUNCTION AND WE RETURN A DECORATOR THAT USES THE PARAMETERS AND THE CLASS PROPERTIES.
+```ts
+//👇 FUNCTION THAT RETURNS A DECORATOR FACTORY 👇
+function createHtmlElement(template: string, id: string, text: string) {
+
+    //👇 FUNCTION THAT RETURNS A DECORATOR 👇
+    return function (constructor: any) {
+    
+        //👇 CREATES THE HTML ELEMENT 👇
+        const container = document.getElementById(id);
+        const element = document.createElement(template);
+
+        //👇 CREATES THE CONTENT USING THE CLASS CONSTRUCTOR 👇
+        const content = new constructor(text);
+
+        if (container) {
+            container.appendChild(element);
+            element.textContent = content.text;
+        }
+
+    };
+
+};
+
+//👇 USES THE DECORATOR FACTORY 👇
+@createHtmlElement('h1', 'container', 'DECORATORS TEST')
+class DecoTextH1 {
+    constructor(public text: string) { }
+};
+
+@createHtmlElement('p', 'container', 'DECORATORS TEST')
+class DecoTextP {
+    constructor(public text: string) { }
+};
+```
+
+## PROPERTY DECORATOR
+WE CAN USE DECORATOR WHEN WE ACCESS A CLASS PROPERTY:
+```ts
+function propertyDecorator(target: any, property: string) {
+    console.log("Property decorator executed. Property is:", property, " Target Class is:", target);
+}
+
+function parameterDecorator(target: any, methodName: string, parameterIndex: number) {
+    console.log(`Parameter decorator executed. Target: ${target}, Method: ${methodName}, Parameter Index: ${parameterIndex}`);
+}
+
+class MyClass {
+    @propertyDecorator
+    myProperty: string;
+
+    constructor(public myProperty: string) {
+        this.myProperty = myProperty;
+    }
+}
+
+// OUTPUT:
+
+// Property decorator executed. Property is: myProperty  Target Class is:
+// {
+// constructor: class MyClass
+// length: 1
+// name: "MyClass"
+// ECC
+// }
+```
+
+WE CAN APPLY DECORATOR TO METHODS PARAMETERS OF A CLASS:
+```ts
+function parameterDecorator(target: any, methodName: string, parameterIndex: number) {
+    console.log(`Parameter decorator executed. Target: ${target}, Method: ${methodName}, Parameter Index: ${parameterIndex}`);
+}
+
+class MyClass {
+    @propertyDecorator    
+    myProperty: string;
+
+
+    constructor(myProperty: string) {
+        this.myProperty = myProperty;
+    }
+
+    // 
+    getProperty(@parameterDecorator property: string) {
+        property = this.myProperty;
+        console.log(`Property: ${property}`);
+    }
+}
+```

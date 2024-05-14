@@ -330,20 +330,20 @@ function newArray<T>(items: T[]) {
 
 // IT WILL TAKE VIA INFERENCE NUMBER AS TYPE
 // function newArray<number>(items: number[]): any[]
-const arr1 = newArray([1,2,3]);
+const arr1 = newArray([1, 2, 3]);
 
 // IT WILL TAKE VIA INFERENCE STRING AS TYPE
 // function newArray<string>(items: string[]): any[]
-const arr2 = newArray(['a','b','c']);
+const arr2 = newArray(['a', 'b', 'c']);
 
 // IT WILL TAKE VIA INFERENCE STRING OR NUMBER UNION AS TYPE
 // function newArray<string | number>(items: (string | number)[]): any[]
-const arr3 = newArray(['a','b',3]);
+const arr3 = newArray(['a', 'b', 3]);
 
 // THIS WAY IT WILL ACCEPT ONLY NUMBERS AS PARAMETERS
-const arr4 = newArray<number>([1,2,3]);
+const arr4 = newArray<number>([1, 2, 3]);
 
-const arr5 = newArray<number | string | boolean>([1,'a',true]);
+const arr5 = newArray<number | string | boolean>([1, 'a', true]);
 
 // WE CAN DECLARE A CLASS THAT ACCEPT GENERIC VALUES THAT WILL BE TYPIZED BY INFERENCE
 class List<T> {
@@ -367,3 +367,63 @@ const list = new List<number>();
 // (method) List<number>.addItem(item: number): void
 // Argument of type 'string' is not assignable to parameter of type 'number'.
 list.addItem(1);
+
+// DECORATORS
+function createHtmlElement(template: string, id: string, text: string) {
+
+    return function (constructor: any) {
+
+        const container = document.getElementById(id);
+        const element = document.createElement(template);
+        const content = new constructor(text);
+
+        if (container) {
+            container.appendChild(element);
+            element.textContent = content.text;
+        }
+
+    };
+
+};
+
+@createHtmlElement('h1', 'container', 'DECORATORS TEST')
+class DecoTextH1 {
+    constructor(public text: string) { };
+};
+
+@createHtmlElement('p', 'container', 'DECORATORS TEST')
+class DecoTextP {
+    constructor(public text: string) { };
+};
+
+function propertyDecorator(target: any, property: string) {
+    console.log("Property decorator executed. Property is:", property, " Target Class is:", target);
+}
+
+/* class MyClass {
+    @propertyDecorator
+    myProperty: string;
+
+    constructor(myProperty: string) {
+        this.myProperty = myProperty;
+    }
+} */
+
+function parameterDecorator(target: any, methodName: string, parameterIndex: number) {
+    console.log(`Parameter decorator executed. Target: ${target}, Method: ${methodName}, Parameter Index: ${parameterIndex}`);
+}
+
+class MyClass {
+    @propertyDecorator    
+    myProperty: string;
+
+
+    constructor(myProperty: string) {
+        this.myProperty = myProperty;
+    }
+
+    getProperty(@parameterDecorator property: string) {
+        property = this.myProperty;
+        console.log(`Property: ${property}`);
+    }
+}
