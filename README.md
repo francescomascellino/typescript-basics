@@ -975,6 +975,8 @@ export { logSuccess, logSum, multiplication };
 ```
 
 # TS IN NODE.JS
+https://www.typescripttutorial.net/typescript-tutorial/nodejs-typescript/
+
 Create two sub-directories called ***build*** and ***src***
 You’ll store the TypeScript code in the ***src*** directory.
 Once the TypeScript compiler compiles the source TypeScript files, it will store the output files in the ***build*** directory.
