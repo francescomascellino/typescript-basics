@@ -973,3 +973,88 @@ function multiplication(a: number, b: number): number {
 
 export { logSuccess, logSum, multiplication };
 ```
+
+# TS IN NODE.JS
+Create two sub-directories called ***build*** and ***src***
+You’ll store the TypeScript code in the ***src*** directory.
+Once the TypeScript compiler compiles the source TypeScript files, it will store the output files in the ***build*** directory.
+
+Create the tsconfig.json file:
+```bash
+tsc --init
+```
+When you compile the TypeScript files, the TypeScript compiler will use the options in the tsconfig.json to compile the project.
+
+Now, you can open the tsconfig.json file. There are many options. In this tutorial, you’ll focus on these two options:
+
+***rootdir*** – specifies the root directory of the TypeScript input files.
+***outdir*** -stores the JavaScript output files.
+
+These options are commented by default. And you’ll need to uncomment ( remove the // at the beginning of the line) and change them as follows:
+
+For the ***outDir*** option:
+```json
+"outDir": "./build"
+```
+And for the ***rootDir*** option:
+```json
+"rootDir": "./src"
+```
+
+## INSTALL NODE.JS MODULES
+The nodemon module allows you to automatically restart the application when you change the JavaScript source code.
+
+The concurrently module runs multiple commands concurrently.
+
+First, execute the ***npm init*** command from the root directory of the project:
+```bash
+npm init --yes
+```
+
+Next, install the nodemon and concurrently module:
+```bash
+npm install --g nodemon concurrently
+```
+
+Note that the -g flag will instruct npm to install these two modules globally. This allows you to use them in other projects.
+
+Then, open the package.json file, and you’ll something like this in the scripts option:
+```json
+// ...  
+"scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+},
+// ...
+```
+After that, change the scripts option to the following:
+```json
+// ...
+"scripts": {
+    "start:build": "tsc -w",
+    "start:run": "nodemon build/app.js",
+    "start": "concurrently npm:start:*"
+},
+// ...
+```
+This ***"start:build": "tsc -w"*** will watch for changes in the ./src directory and compile them automatically.
+
+This ***"start:run": "nodemon build/app.js"*** will automatically run the app.js in the ./build directory whenever the new file is generated.
+
+This ***"start": "concurrently npm:start:*"*** runs all the commands that start with npm:start:*, which executes both start:build and start:run commands above.
+
+Since the ***app.js*** will be the entry point for the Node.js program, you also need to change the following option in the ***package.json*** file to app.js:
+
+From:
+```json
+"main": "index.js"
+```
+To:
+```json
+ "main": "app.js"
+```
+
+Finally, execute the following command:
+```
+npm start
+```
+To verify the configuration, you change some code in the app.ts. And you’ll see the output in the console.
